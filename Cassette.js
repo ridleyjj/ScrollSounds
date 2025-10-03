@@ -109,21 +109,22 @@ class Cassette {
 
         // wheel teeth
         this.offset += 0.1 * acceleration;
-        this.drawWheelTeeth(this.x + this.width * 0.25, centreRowY, this.offset);
-        this.drawWheelTeeth(this.x + this.width * 0.75, centreRowY, this.offset);
+        this.offset = JrUtils.constrainLoop(this.offset, 0, 1);
+        this.drawWheelTeeth(this.x + this.width * 0.25, centreRowY);
+        this.drawWheelTeeth(this.x + this.width * 0.75, centreRowY);
     }
 
     /**
      * originX and originY are the center point of the circle in which the teeth will be drawn
      * offset is between 0-1 and will spin the wheels
      */
-    drawWheelTeeth(originX, originY, offset) {
+    drawWheelTeeth(originX, originY) {
         push();
         angleMode(DEGREES);
         rectMode(CENTER);
         let toothSize = this.height * 0.045;
         translate(originX, originY);
-        rotate(60 * offset);
+        rotate(60 * this.offset);
         for (let i = 0; i < 6; i++) {
             rotate(60);
             square(0, this.height * 0.1, toothSize, 1.2);
