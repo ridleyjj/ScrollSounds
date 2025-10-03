@@ -1,11 +1,13 @@
-let smoothShape;
+let jrMouseWheel;
+let cassette;
 
 let initialised = false;
 
 function setup() {
-  let cnv = createCanvas(600, 600);
+  let cnv = createCanvas(window.innerWidth, window.innerHeight);
 
-  smoothShape = new JrSmoothShape(cnv);
+  jrMouseWheel = new JrMouseWheel(cnv);
+  cassette = new Cassette(width / 2, height / 2);
 
   initialised = true;
 }
@@ -13,7 +15,6 @@ function setup() {
 function draw() {
   if (!initialised) return;
 
-  background(220);
-
-  smoothShape.display();
+  jrMouseWheel.tick();
+  cassette.draw(jrMouseWheel.acceleration);
 }
