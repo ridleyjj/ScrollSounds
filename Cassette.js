@@ -4,6 +4,12 @@ class Cassette {
     width = this.height * 1.6;
     padding = this.height * 0.06;
     cornerCircleSize = this.height * 0.04;
+    strokeWeight = this.height * 0.02;
+
+    handwritingFont = "Caveat-VariableFont_wght";
+    boldFont = "BowlbyOneSC-Regular";
+    mainPrintFont = "Verdana";
+    labelName = "Bowls";
 
     constructor(x, y) {
         this.x = x - this.width / 2;
@@ -12,16 +18,19 @@ class Cassette {
         this.leftX = this.x + this.padding;
         this.topY = this.y + this.padding;
         this.bottomY = this.y + this.height - this.padding;
+
+        loadFont("fonts/" + this.boldFont + ".ttf");
+        loadFont("fonts/" + this.handwritingFont + ".ttf");
     }
 
     offset = 0;
 
     draw(acceleration) {
         // stroke weight calibrated to 4 for height of 200 - may adjust this later
-        strokeWeight(this.height * 0.02);
+        strokeWeight(this.strokeWeight);
 
         // main body
-        fill(240, 195, 72);
+        fill(222, 81, 20);
         rect(this.x, this.y, this.width, this.height, 5);
 
         // TODO - clean up this drawing logic
@@ -47,36 +56,61 @@ class Cassette {
         circle(this.leftX, this.topY, this.cornerCircleSize);
         circle(this.leftX, this.bottomY, this.cornerCircleSize);
         
-        circle(this.leftX + this.width * 0.25, this.bottomY - 3, this.cornerCircleSize);
-        circle(this.rightX - this.width * 0.25, this.bottomY - 3, this.cornerCircleSize);
+        circle(this.leftX + this.width * 0.25, this.bottomY - this.height * 0.015, this.cornerCircleSize);
+        circle(this.rightX - this.width * 0.25, this.bottomY - this.height * 0.015, this.cornerCircleSize);
         circle(this.x + this.width * 0.5, this.bottomY - this.height * 0.09, this.cornerCircleSize);
 
         // middle section
-        fill(222, 81, 20);
+        fill(255, 255, 255);
         beginShape();
-        shapeX = this.x + this.width * 0.07;
-        shapeY = this.y + this.height * 0.65;
+        shapeX = this.x + this.width * 0.05;
+        shapeY = this.y + this.height * 0.7;
         vertex(shapeX, shapeY);
-        shapeY -= this.height * 0.4;
+        shapeY -= this.height * 0.54;
         vertex(shapeX, shapeY);
-        shapeX += this.width * 0.08;
-        shapeY -= this.height * 0.15;
+        shapeX += this.width * 0.05;
+        shapeY -= this.height * 0.08;
         vertex(shapeX, shapeY);
-        shapeX = this.x + this.width * 0.85;
+        shapeX = this.x + this.width * 0.9;
         vertex(shapeX, shapeY);
-        shapeX += this.width * 0.08;
-        shapeY += this.height * 0.15;
+        shapeX += this.width * 0.05;
+        shapeY += this.height * 0.08;
         vertex(shapeX, shapeY);
-        shapeY += this.height * 0.4;
+        shapeY += this.height * 0.54;
         vertex(shapeX, shapeY);
         endShape(CLOSE);
+
+        push();
+        fill(240, 195, 72);
+        noStroke();
+        rect(this.x + this.width * 0.05 + this.strokeWeight * 0.5, this.y + this.height * 0.3, this.width * 0.9 - this.strokeWeight, this.height * 0.4 - this.strokeWeight * 0.5);
+        pop();
+        push();
+        // don't think I like this line but leaving it in for comparison
+        //line(this.x + this.width * 0.05, this.y + this.height * 0.3, this.x + this.width * 0.95, this.y + this.height * 0.3);
+        fill(0, 0, 0);
+        textFont(this.mainPrintFont, this.height * 0.13);
+        text("A", this.x + this.width * 0.12, this.y + this.height * 0.24);
+        textFont(this.mainPrintFont, this.height * 0.07);
+        text("C-60", this.x + this.width * 0.82, this.y + this.height * 0.65);
+        textFont(this.boldFont, this.height * 0.07);
+        text("HQ", this.x + this.width * 0.08, this.y + this.height * 0.65);
+        stroke(0, 0, 0);
+        strokeWeight(this.strokeWeight * 0.5);
+        line(this.x + this.width * 0.25, this.y + this.height * 0.15, this.x + this.width * 0.85, this.y + this.height * 0.15);
+        line(this.x + this.width * 0.25, this.y + this.height * 0.23, this.x + this.width * 0.85, this.y + this.height * 0.23);
+        noStroke();
+        fill(45, 50, 170);
+        textFont(this.handwritingFont, this.height * 0.125);
+        text(this.labelName + " Mix", this.x + this.width * 0.4, this.y + this.height * 0.22);
+        pop();
 
         // cutaways
         fill(255, 255, 255);
         rect(this.x + this.width * 0.37, this.bottomY - this.height * 0.04, this.width * 0.08, this.height * 0.055);
         rect(this.x + this.width * 0.55, this.bottomY - this.height * 0.04, this.width * 0.08, this.height * 0.055);
         
-        let centreRowY = this.y + this.height * 0.42;
+        let centreRowY = this.y + this.height * 0.5;
         circle(this.x + this.width * 0.25, centreRowY, this.height * 0.25);
         circle(this.x + this.width * 0.75, centreRowY, this.height * 0.25);
         let smallRectW = this.width * 0.28;

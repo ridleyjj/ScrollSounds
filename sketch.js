@@ -59,9 +59,9 @@ function draw() {
   background(255, 255, 255);
 
   if (!audioStarted) {
-    textFont('Courier New', 16)
+    textFont('Courier New', cassette.height * 0.08)
     fill(0, 0, 0);
-    text("click to start audio", cassette.x + cassette.width * 0.2, cassette.y + cassette.height + 18);
+    text("click to start audio", cassette.x + cassette.width * 0.2, cassette.y + cassette.height * 1.085);
   }
 
   // acceleration
