@@ -8,7 +8,7 @@ let audioStarted = false;
 var sound;
 var reversedSound;
 
-var fileName = "bowls.wav";
+var fileName = "bowls_looped.wav";
 
 var a = 0;
 
