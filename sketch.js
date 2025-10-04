@@ -1,4 +1,4 @@
-let jrMouseWheel;
+let scrollManager;
 let cassette;
 let soundScrubber;
 
@@ -22,7 +22,7 @@ function setup() {
 
   getAudioContext().suspend();
 
-  jrMouseWheel = new JrMouseWheel(cnv);
+  jrMouseWheel = new JrScrollManager(cnv);
   cassette = new Cassette(width / 2, height / 2);
   soundScrubber = new JrSoundScrubber(sound, reversedSound);
 
@@ -30,10 +30,27 @@ function setup() {
 }
 
 function mousePressed() {
+  startAudio();
+}
+
+function startAudio() {
   if (!audioStarted) {
-    getAudioContext().resume();
-    audioStarted = true;
+    getAudioContext().resume().then(() => {
+      // resolves when audio context successfully resumed
+      audioStarted = true;
+    })
   }
+}
+
+function touchStarted(event) {
+  startAudio();
+  event.preventDefault();
+  jrMouseWheel.touchStarted(event);
+}
+
+function touchMoved(event) {
+  event.preventDefault();
+  jrMouseWheel.touchMoved(event);
 }
 
 function draw() {
