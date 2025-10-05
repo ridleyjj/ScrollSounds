@@ -5,16 +5,14 @@ let soundScrubber;
 let initialised = false;
 let audioStarted = false;
 
-var sound;
-var reversedSound;
+var soundFile;
 
 var fileName = "bowls_looped.wav";
 
 var a = 0;
 
 function preload() {
-  sound = loadSound(fileName);
-  reversedSound = loadSound(fileName);
+  soundFile = loadSound(fileName);
 }
 
 function setup() {
@@ -24,7 +22,7 @@ function setup() {
 
   jrMouseWheel = new JrScrollManager(cnv);
   cassette = new Cassette(width / 2, height / 2);
-  soundScrubber = new JrSoundScrubber(sound, reversedSound);
+  soundScrubber = new JrSoundScrubber(soundFile);
 
   initialised = true;
 }
