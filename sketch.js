@@ -20,7 +20,7 @@ function setup() {
 
   getAudioContext().suspend();
 
-  jrMouseWheel = new JrScrollManager(cnv);
+  scrollManager = new JrScrollManager(cnv);
   cassette = new Cassette(width / 2, height / 2);
   soundScrubber = new JrSoundScrubber(soundFile);
 
@@ -48,12 +48,12 @@ function startAudio() {
 function touchStarted(event) {
   startAudio();
   event.preventDefault();
-  jrMouseWheel.touchStarted(event);
+  scrollManager.touchStarted(event);
 }
 
 function touchMoved(event) {
   event.preventDefault();
-  jrMouseWheel.touchMoved(event);
+  scrollManager.touchMoved(event);
 }
 
 function draw() {
@@ -68,8 +68,8 @@ function draw() {
   }
 
   // acceleration
-  jrMouseWheel.tick();
-  a = lerp(a, jrMouseWheel.acceleration, 0.1);
+  scrollManager.tick();
+  a = lerp(a, scrollManager.acceleration, 0.1);
   if (abs(a) < 0.01) a = 0;
 
   soundScrubber.updateAudioPlayback(a);
