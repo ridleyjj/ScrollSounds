@@ -18,7 +18,7 @@ function preload() {
 }
 
 function setup() {
-  let cnv = createCanvas(window.innerWidth, window.innerHeight);
+  let cnv = createCanvas(windowWidth, windowHeight);
 
   getAudioContext().suspend();
 
@@ -27,6 +27,11 @@ function setup() {
   soundScrubber = new JrSoundScrubber(sound, reversedSound);
 
   initialised = true;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  cassette.setCassettePosition(width / 2, height / 2);
 }
 
 function mousePressed() {

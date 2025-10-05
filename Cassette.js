@@ -5,6 +5,7 @@ class Cassette {
     padding = this.height * 0.06;
     cornerCircleSize = this.height * 0.04;
     strokeWeight = this.height * 0.02;
+    offset = 0;
 
     handwritingFont = "Caveat-VariableFont_wght";
     boldFont = "BowlbyOneSC-Regular";
@@ -12,18 +13,19 @@ class Cassette {
     labelName = "Bowls";
 
     constructor(x, y) {
+        this.setCassettePosition(x, y);
+        loadFont("fonts/" + this.boldFont + ".ttf");
+        loadFont("fonts/" + this.handwritingFont + ".ttf");
+    }
+
+    setCassettePosition(x, y) {
         this.x = x - this.width / 2;
         this.y = y - this.height / 2;
         this.rightX = this.x + this.width - this.padding;
         this.leftX = this.x + this.padding;
         this.topY = this.y + this.padding;
         this.bottomY = this.y + this.height - this.padding;
-
-        loadFont("fonts/" + this.boldFont + ".ttf");
-        loadFont("fonts/" + this.handwritingFont + ".ttf");
     }
-
-    offset = 0;
 
     draw(acceleration) {
         // stroke weight calibrated to 4 for height of 200 - may adjust this later
