@@ -58,6 +58,6 @@ class JrScrollManager {
 
         if (this.touchPosY == undefined) this.touchPosY = newPosY;
 
-        this.incrementDelta((newPosY - this.touchPosY) * 1.5);
+        this.incrementDelta((newPosY - this.touchPosY) * 1.1);
     }
 };
