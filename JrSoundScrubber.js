@@ -1,48 +1,19 @@
 class JrSoundScrubber {
-    forwardSound;
-    reversedSound;
+    soundPlayer;
 
-    constructor(forwardSound) {
-        this.forwardSound = forwardSound;
-        this.reversedSound = new p5.SoundFile();
-        this.reversedSound.buffer = this.copyBuffer(forwardSound.buffer);
-
-        this.reversedSound.reverseBuffer();
-  
-        this.initAudioFile(this.forwardSound);
-        this.initAudioFile(this.reversedSound);
+    constructor(fileName) {
+        this.soundPlayer = new JrReversableSoundPlayer(fileName);
     }
 
-    /** 
-     * returns deep copy of provided audio buffer
-     * avoids having to load a single file twice
-    */
-    copyBuffer(buffer) {
-    let newBuffer = getAudioContext().createBuffer(
-        buffer.numberOfChannels,
-        buffer.length,
-        buffer.sampleRate
-    );
-    for (let i = 0; i < buffer.numberOfChannels; i++) {
-        newBuffer.getChannelData(i).set(buffer.getChannelData(i));
-    }
-    return newBuffer;
+    startAudio() {
+        this.soundPlayer.vol.volume.rampTo(-5, 0.1);
     }
 
-    initAudioFile(soundFile) {
-        soundFile.play();
-        soundFile.setLoop(true);
-        soundFile.rate(0);
-        soundFile.jump(5);
+    stopAudio() {
+        this.soundPlayer.vol.volume.rampTo(-80, 0.1);
     }
 
     updateAudioPlayback(rate) {
-        if (rate < 0) {
-            this.reversedSound.rate(-rate);
-            this.forwardSound.rate(0);
-        } else {
-            this.forwardSound.rate(rate);
-            this.reversedSound.rate(0);
-        }
+        this.soundPlayer.playbackRate = rate;
     }
 }

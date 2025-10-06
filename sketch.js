@@ -11,18 +11,20 @@ var fileName = "bowls_looped.wav";
 
 var a = 0;
 
+handwritingFont = "Caveat-VariableFont_wght";
+boldFont = "BowlbyOneSC-Regular";
+
 function preload() {
-  soundFile = loadSound(fileName);
+  loadFont("fonts/" + boldFont + ".ttf");
+  loadFont("fonts/" + handwritingFont + ".ttf");
 }
 
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
 
-  getAudioContext().suspend();
-
   scrollManager = new JrScrollManager(cnv);
   cassette = new Cassette(width / 2, height / 2);
-  soundScrubber = new JrSoundScrubber(soundFile);
+  soundScrubber = new JrSoundScrubber(fileName);
 
   initialised = true;
 }
@@ -38,10 +40,10 @@ function mousePressed() {
 
 function startAudio() {
   if (!audioStarted) {
-    getAudioContext().resume().then(() => {
-      // resolves when audio context successfully resumed
+    Tone.start().then(() => {
       audioStarted = true;
-    })
+      soundScrubber.startAudio();
+    });
   }
 }
 

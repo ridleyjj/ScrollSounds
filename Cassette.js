@@ -14,8 +14,6 @@ class Cassette {
 
     constructor(x, y) {
         this.setCassettePosition(x, y);
-        loadFont("fonts/" + this.boldFont + ".ttf");
-        loadFont("fonts/" + this.handwritingFont + ".ttf");
     }
 
     setCassettePosition(x, y) {
