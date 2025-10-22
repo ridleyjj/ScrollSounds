@@ -50,13 +50,13 @@ class JrReversableSoundPlayer {
         if (rate < 0 && !this.isReversing) {
             this.isReversing = true;
             this.reversePlayer.seek((this.reversePlayer.buffer.duration * 1000 - this.playTime) / 1000);
-            this.reverseVol.volume.rampTo(-0, 0.1);
+            this.reverseVol.volume.rampTo(0, 0.1);
             this.forwardVol.volume.rampTo(-80, 0.1);
         } else if (rate > 0 && this.isReversing) {
             this.isReversing = false;
             this.soundPlayer.seek(this.playTime / 1000);
             this.reverseVol.volume.rampTo(-80, 0.1);
-            this.forwardVol.volume.rampTo(-0, 0.1);
+            this.forwardVol.volume.rampTo(0, 0.1);
         }
         
         let absRate = abs(rate);

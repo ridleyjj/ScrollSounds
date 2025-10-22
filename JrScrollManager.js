@@ -19,7 +19,11 @@ class JrScrollManager {
         this.incrementDelta(event.deltaY);
     }
 
+    lastMovementTime = millis();
+    dragDelay = 1000 // ms
+
     incrementDelta(newDeltaY) {
+        this.lastMovementTime = millis(); // used to delay drag
         this.delta += newDeltaY;
         this.delta = constrain(this.delta, - this.maxDelta, this.maxDelta);
     }
@@ -34,6 +38,8 @@ class JrScrollManager {
     }
 
     applyDrag() {
+        if (millis() - this.lastMovementTime < this.dragDelay) return;
+
         if (abs(this.delta) < this.dragAmt) this.delta = 0;
         else if (this.delta < 0) {
             this.delta += this.dragAmt;
