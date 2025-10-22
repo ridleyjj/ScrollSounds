@@ -6,6 +6,7 @@ class JrSoundScrubber {
     }
 
     startAudio() {
+        this.soundPlayer.startAudio();
         this.soundPlayer.vol.volume.rampTo(-5, 0.1);
     }
 

@@ -22,7 +22,7 @@ class JrReversableSoundPlayer {
         let newPlayer =  new Tone.Player({
             url: this.fileName,
             reverse: reversed,
-            autostart: true,
+            autostart: false,
             loop: true,
             playbackRate: 0,
         });
@@ -33,6 +33,11 @@ class JrReversableSoundPlayer {
         }
         this.initialised++;
         return newPlayer;
+    }
+
+    startAudio() {
+        this.soundPlayer.start();
+        this.reversePlayer.start();
     }
 
     set playbackRate(rate) {
