@@ -6,13 +6,6 @@ class JrScrollManager {
 
     constructor(cnv) {
         cnv.mouseWheel(this.applyMouseMovement.bind(this));
-
-        cnv.elt.addEventListener('wheel', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        return false;
-    });
     }
 
     applyMouseMovement(event) {
