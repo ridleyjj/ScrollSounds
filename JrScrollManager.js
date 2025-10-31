@@ -1,62 +1,31 @@
 class JrScrollManager {
-    delta = 0;
-    maxDelta = 150;
-    dragAmt = 1;
-    acceleration = 0;
-
-    constructor(cnv) {
-        cnv.mouseWheel(this.applyMouseMovement.bind(this));
-    }
-
-    applyMouseMovement(event) {
-        this.incrementDelta(event.deltaY);
-    }
-
-    lastMovementTime = millis();
-    dragDelay = 1000 // ms
-
-    incrementDelta(newDeltaY) {
-        this.lastMovementTime = millis(); // used to delay drag
-        this.delta += newDeltaY;
-        this.delta = constrain(this.delta, - this.maxDelta, this.maxDelta);
-    }
+    prevScrollY = 0;
+    maxDiff = 200;
+    a = 0;
+    lastUpdate = 0;
+    dragDelay = 500; // ms
+    dragDampening = 0.97;
+    zeroLimit = 0.01; // limit at which point a is clamped to 0;
 
     tick() {
-        this.updateAcceleration();
-        this.applyDrag();
-    }
+        let diff = window.scrollY - this.prevScrollY;
 
-    updateAcceleration() {
-        this.acceleration = lerp(0, this.delta, 0.04) / 6;
-    }
+        this.prevScrollY = window.scrollY;
 
-    applyDrag() {
-        if (millis() - this.lastMovementTime < this.dragDelay) return;
+        diff = map(diff, -this.maxDiff, this.maxDiff, -1, 1, true);
 
-        if (abs(this.delta) < this.dragAmt) this.delta = 0;
-        else if (this.delta < 0) {
-            this.delta += this.dragAmt;
-        } else {
-            this.delta -= this.dragAmt;
+        this.a += diff;
+
+        this.a = constrain(this.a, -1, 1);
+
+        if (diff !== 0) {
+            this.lastUpdate = millis();
         }
-    }
 
-    // touch logic
-    touchPosY = undefined;
-
-    touchStarted(event) {
-        if (event == undefined || event.changedTouches == undefined || event.changedTouches[0] == undefined) return;
-
-        this.touchPosY = event.changedTouches[0].pageY;
-    }
-
-    touchMoved(event) {
-        if (event == undefined || event.changedTouches == undefined || event.changedTouches[0] == undefined) return;
-        
-        let newPosY = event.changedTouches[0].pageY;
-
-        if (this.touchPosY == undefined) this.touchPosY = newPosY;
-
-        this.incrementDelta((newPosY - this.touchPosY) * 1.1);
+        // apply drag/dampening
+        if (this.a !== 0 && (millis() - this.lastUpdate) > this.dragDelay) {
+            this.a *= this.dragDampening;
+            if (this.a > -this.zeroLimit && this.a < this.zeroLimit) this.a = 0;
+        }
     }
 };

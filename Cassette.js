@@ -10,10 +10,11 @@ class Cassette {
     handwritingFont = "Caveat-VariableFont_wght";
     boldFont = "BowlbyOneSC-Regular";
     mainPrintFont = "Verdana";
-    labelName = "Bowls";
+    labelName = "Software Developer";
 
-    constructor(x, y) {
+    constructor(x, y, bg) {
         this.setCassettePosition(x, y);
+        this.bg = bg;
     }
 
     setCassettePosition(x, y) {
@@ -102,11 +103,11 @@ class Cassette {
         noStroke();
         fill(45, 50, 170);
         textFont(this.handwritingFont, this.height * 0.125);
-        text(this.labelName + " Mix", this.x + this.width * 0.4, this.y + this.height * 0.22);
+        text(this.labelName, this.x + this.width * 0.29, this.y + this.height * 0.22);
         pop();
 
         // cutaways
-        fill(255, 255, 255);
+        fill(this.bg.r, this.bg.g, this.bg.b);
         rect(this.x + this.width * 0.37, this.bottomY - this.height * 0.04, this.width * 0.08, this.height * 0.055);
         rect(this.x + this.width * 0.55, this.bottomY - this.height * 0.04, this.width * 0.08, this.height * 0.055);
         
@@ -118,7 +119,7 @@ class Cassette {
         rect(this.x + this.width * 0.36, centreRowY - smallRectH * 0.5, smallRectW, smallRectH);
 
         // tape wheels
-        fill(107, 145, 191);
+        fill(100);
         beginShape();
         shapeX = this.x + this.width * 0.36;
         shapeY = centreRowY - smallRectH * 0.5;
@@ -153,6 +154,7 @@ class Cassette {
      * offset is between 0-1 and will spin the wheels
      */
     drawWheelTeeth(originX, originY) {
+        fill(255);
         push();
         angleMode(DEGREES);
         rectMode(CENTER);

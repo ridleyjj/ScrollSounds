@@ -3,49 +3,43 @@ let cassette;
 
 let initialised = false;
 
-var a = 0;
+let pagePadding = 15;
+let canvasHeight = 300;
 
-handwritingFont = "Caveat-VariableFont_wght";
-boldFont = "BowlbyOneSC-Regular";
+let canvasElement;
+
+let handwritingFont = "Caveat-VariableFont_wght";
+let boldFont = "BowlbyOneSC-Regular";
+
+let bg = { r: 76, g: 159, b: 231 };
 
 function preload() {
-  loadFont("fonts/" + boldFont + ".ttf");
-  loadFont("fonts/" + handwritingFont + ".ttf");
+  loadFont("cassette/fonts/" + boldFont + ".ttf");
+  loadFont("cassette/fonts/" + handwritingFont + ".ttf");
 }
 
 function setup() {
-  const existingCnv = document.getElementById("cassette")
+  canvasElement = document.getElementById("cassette")
 
-  let cnv = createCanvas(500, 500, "P2D", existingCnv);
+  createCanvas(window.innerWidth - (2 * pagePadding), canvasHeight, "P2D", canvasElement);
 
-  scrollManager = new JrScrollManager(cnv);
-  cassette = new Cassette(width / 2, height / 2);
+  scrollManager = new JrScrollManager();
+  cassette = new Cassette(width / 2, height / 2, bg);
 
   initialised = true;
 }
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-//   cassette.setCassettePosition(width / 2, height / 2);
-// }
-
-function touchStarted(event) {
-  scrollManager.touchStarted(event);
-}
-
-function touchMoved(event) {
-  scrollManager.touchMoved(event);
+function windowResized() {
+  resizeCanvas(window.innerWidth - (2 * pagePadding), canvasHeight);
+  cassette.setCassettePosition(width / 2, height / 2);
 }
 
 function draw() {
   if (!initialised) return;
 
-  background(255, 255, 255);
+  fill(bg.r, bg.g, bg.b);
 
-  // acceleration
   scrollManager.tick();
-  a = lerp(a, scrollManager.acceleration, 0.1);
-  if (abs(a) < 0.01) a = 0;
-  
-  cassette.draw(a);
+
+  cassette.draw(scrollManager.a);
 }
